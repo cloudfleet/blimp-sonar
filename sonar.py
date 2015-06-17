@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-import settings, traceback, getopt, sys, os
+import settings, os, requests
 
 app = Flask(__name__)
 
@@ -7,13 +7,8 @@ app = Flask(__name__)
 @app.route('/bus/<channel>', methods=['POST'])
 def post_message(channel):
     if channel in settings.channels:
-        for plugin in settings.channels.get(channel):
-            try:
-                plugin(request.json)
-            except:
-                print traceback.format_exc()
-
-    # TODO propagate to subscribers
+        # TODO: Sanitize input
+        requests.post("http://conduit:5000/bus/%s". data=json.dumps(request.json))
     return jsonify({"message": "received", "status": "success"})
 
 if __name__ == '__main__':
