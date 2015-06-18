@@ -8,7 +8,7 @@ app = Flask(__name__)
 def post_message(channel):
     if channel in settings.channels:
         # TODO: Sanitize input
-        requests.post("http://conduit:5000/bus/%s". data=json.dumps(request.json))
+        requests.post("http://conduit:5000/bus/%s" % channel, data=json.dumps(request.json))
     return jsonify({"message": "received", "status": "success"})
 
 if __name__ == '__main__':
