@@ -1,10 +1,7 @@
-from flask import Flask, jsonify, request
+from bottle import route, run
 import settings, os, requests
 
-app = Flask(__name__)
-
-
-@app.route('/bus/<channel>', methods=['POST'])
+@route('/bus/<channel>', methods=['POST'])
 def post_message(channel):
     if channel in settings.channels:
         # TODO: Sanitize input
@@ -12,5 +9,4 @@ def post_message(channel):
     return jsonify({"message": "received", "status": "success"})
 
 if __name__ == '__main__':
-    print os.environ
-    app.run(host='0.0.0.0')
+    run(host='0.0.0.0')
